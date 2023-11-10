@@ -3,6 +3,6 @@ transformers
 accelerate
 peft
 bitsandbytes
-pyngrok==4.1.1
+# pyngrok==4.1.1
 flask
 flask-ngrok2
