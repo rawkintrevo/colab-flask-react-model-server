@@ -3,8 +3,11 @@ from flask import Blueprint, jsonify, request
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig, pipeline
 import torch
 
-tokenizer_name = "tiiuae/falcon-7b-instruct"
+import os
 
+tokenizer_name = os.environ['TOKENIZER_NAME']
+model_name = os.environ['MODEL_NAME']
+model_rev = os.environ['MODEL_REVISION']
 
 tokenizer = AutoTokenizer.from_pretrained(tokenizer_name, trust_remote_code=True)
 tokenizer.pad_token = tokenizer.eos_token
@@ -15,8 +18,8 @@ bnb_config = BitsAndBytesConfig(
     bnb_4bit_compute_dtype=torch.float16,
     bnb_4bit_use_double_quant=True)
 model = AutoModelForCausalLM.from_pretrained(
-    "rawkintrevo/hf-sme-falcon-7b",
-    revision="v0.0.1",
+    model_name,
+    revision=model_rev,
     quantization_config=bnb_config,
     torch_dtype=torch.float16,
     trust_remote_code=True
